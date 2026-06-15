@@ -29,3 +29,18 @@ print("Fin:", fin)
 
 for fila in laberinto:
     print(fila)
+
+solucion = [[0 for _ in range(columnas)] for _ in range(filas)]
+
+visitado = [[False for _ in range(columnas)] for _ in range(filas)]
+
+def es_valido(x, y):
+    return (
+        0 <= x < filas and
+        0 <= y < columnas and
+        laberinto[x][y] != 0 and
+        not visitado[x][y]
+    )
+
+print("Movimiento válido:", es_valido(8, 0))
+print("Movimiento válido:", es_valido(0, 4))
