@@ -34,6 +34,8 @@ solucion = [[0 for _ in range(columnas)] for _ in range(filas)]
 
 visitado = [[False for _ in range(columnas)] for _ in range(filas)]
 
+camino = []
+
 def es_valido(x, y):
     return (
         0 <= x < filas and
@@ -51,11 +53,13 @@ def backtracking(x, y, vidas):
         return False
 
     if (x, y) == fin:
-        solucion[x][y] = 1
-        return True
+     solucion[x][y] = 1
+     camino.append(f"({x},{y})")
+     return True
 
     visitado[x][y] = True
     solucion[x][y] = 1
+    camino.append(f"({x},{y})[{vidas}]")
 
     movimientos = [
         (1, 0),
@@ -79,13 +83,25 @@ def backtracking(x, y, vidas):
             elif laberinto[nx][ny] == -2:
                 nueva_vida -= 2
 
-            if backtracking(nx, ny, nueva_vida):
-                return True
-
+            if nueva_vida > 0:
+             if backtracking(nx, ny, nueva_vida):
+              return True
+    camino.pop()
     solucion[x][y] = 0
+    visitado[x][y] = False
 
     return False
 
 resultado = backtracking(inicio[0], inicio[1], 3)
 
 print("Resultado:", resultado)
+print(" -> ".join(camino))
+
+if resultado:
+    print("se encontro una ruta valida")
+
+    for fila in solucion:
+        print(fila)
+
+else:
+    print("no se encontro una ruta válida")
